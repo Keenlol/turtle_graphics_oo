@@ -1,40 +1,20 @@
 import turtle
 import random
 
-class Polygon:
-    
-    def __init__(self, num_sides, size, orientation, color, border_size) -> None:
-        self.num_sides = num_sides
-        self.size = size
-        self.orientation = orientation
-        self.color = color
-        self.border_size = border_size
+def draw_polygon(num_sides, size, orientation, location, color, border_size):
+    turtle.penup()
+    turtle.goto(location[0], location[1])
+    turtle.setheading(orientation)
+    turtle.color(color)
+    turtle.pensize(border_size)
+    turtle.pendown()
+    for _ in range(num_sides):
+        turtle.forward(size)
+        turtle.left(360/num_sides)
+    turtle.penup()
 
-
-class Canvas:
-
-    def __init__(self) -> None:
-        self.get_new_color()
-        self.get_new_location()
-        
-
-    def draw_polygon(self, num_sides, size, orientation, location, border_size):
-        turtle.penup()
-        turtle.goto(location[0], location[1])
-        turtle.setheading(orientation)
-        turtle.color(color)
-        turtle.pensize(border_size)
-        turtle.pendown()
-        for _ in range(num_sides):
-            turtle.forward(size)
-            turtle.left(360/num_sides)
-        turtle.penup()
-
-    def get_new_color(self):
-        self.__color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-    
-    def get_new_location(self):
-        self.__location = [random.randint(-300, 300), random.randint(-200, 200)]
+def get_new_color():
+    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
 turtle.speed(0)
 turtle.bgcolor('black')
