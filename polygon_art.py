@@ -29,13 +29,10 @@ class Canvas:
         Create the artwork with the given randomize range of layers, sides and shapes.
         (the artist's melody)
 
-        Args:
+        Args: Range of values, for example [a, b] is 'from a to b inclusively'
             range_num_layers (list): Range for randomizing number of indented polygon layers. 
-                                    ex. [a, b] = from a layers to b layers.
             range_num_sides (list): Range for randomizing number of polygon sides.
-                                    ex. [a, b] = from a sides to b sides.
             range_num_polygon (list): Range for randomizing number of polygon.
-                                    ex. [a, b] = from a polygons to b polygons.
         """
         self.__range_num_layers = range_num_layers
         self.__range_num_sides = range_num_sides
@@ -70,12 +67,17 @@ class Canvas:
 
     def move_to_next_layer(self):
         """ Go reposition into the inner layer of the polygon."""
-        self.__size *= self.__reduction_ratio
         turtle.penup()
         turtle.forward(self.__size*(1-self.__reduction_ratio)/2)
         turtle.left(90)
         turtle.forward(self.__size*(1-self.__reduction_ratio)/2)
         turtle.right(90)
+
+        self.__location[0] = turtle.pos()[0]
+        self.__location[1] = turtle.pos()[1]
+
+        self.__size *= self.__reduction_ratio
+
 
     def randomize_values(self):
         """ Randomize all the value to get ready to draw the next shape."""
@@ -108,17 +110,19 @@ class Painter:
 
     def hear(self):
         """ Tell Painter what to do, will ask for an input"""
-        self.__task_set = int(input("Which art do you want to generate? Enter a number between 1 to 9 inclusive: "))
-        self.brain()
+        while True:
+            self.__task_set = int(input("Which art do you want to generate? Enter a number between 1 to 9 inclusive: "))
+            if not (1 <= self.__task_set <= 9):
+                print(f"{self.__task_set} is not between 1 to 9")
+                continue
+            self.brain()
 
     def brain(self):
-        """ Painter's vital organs for processing given task and will paint accordingly"""
-        if self.__task_set == 0:
-            self.__canvas.clear()
-            return
+        """ Painter's vital organs for processing given task and will paint accordingly."""
+        self.__canvas.clear()
 
         if self.__task_set % 4 != 0 and self.__task_set != 9:
-            range_num_sides = [self.__task_set + 2, self.__task_set + 2]
+            range_num_sides = [self.__task_set % 4 + 2, self.__task_set % 4 + 2]
         else:
             range_num_sides = [3, 5]
         
@@ -133,12 +137,8 @@ class Painter:
         self.__canvas.melody(range_num_layers, range_num_sides, range_num_polygon)
 
 
-# Main
+# Main 
 Josh = Painter()
-# Josh.hear()
-
-# # Additionally I made it so that you can paint multiple times (type 0 to clear the canvas)
-# while(1):
-#     Josh.hear()
+Josh.hear()
 
 turtle.done()
