@@ -101,7 +101,7 @@ class Painter:
 
     def __init__(self, canvas: Canvas = Canvas()) -> None:
         """
-        A painter
+        A painter, He/She will ask and process the inputs and paint accordingly.
         
         Args:
             canvas (Canvas): Canvas that the painter will be painting on.
@@ -109,15 +109,15 @@ class Painter:
         self.__canvas = canvas
 
     def hear(self):
-        """ Tell Painter what to do, will ask for an input"""
+        """ Tell Painter what to do, painter will ask for an inputs"""
         while True:
             self.__task_set = int(input("Which art do you want to generate? Enter a number between 1 to 9 inclusive: "))
             if not (1 <= self.__task_set <= 9):
                 print(f"{self.__task_set} is not between 1 to 9")
                 continue
-            self.brain()
+            self.think()
 
-    def brain(self):
+    def think(self):
         """ Painter's vital organs for processing given task and will paint accordingly."""
         self.__canvas.clear()
 
